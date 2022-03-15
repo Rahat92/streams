@@ -1,10 +1,13 @@
+import _ from 'lodash';
 import React,{useEffect} from "react";
 import { useSelector,useDispatch } from "react-redux";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import { fetchStream,editStream } from "../../actions";
 import StreamForm from "./StreamForm";
 
 const StreamEdit = ()=>{
+    const navigate = useNavigate();
+    
     const { userId } = useParams();
     const dispatch = useDispatch();
     useEffect(()=>{
@@ -12,13 +15,13 @@ const StreamEdit = ()=>{
         
     },[])
     const data = useSelector((state)=>{
-        return state
+        return state.streams[userId]
     });
     
     const onSubmit = (formValues) => {
-        dispatch(editStream(userId,formValues))
+        dispatch(editStream(userId,formValues,navigate))
     }
-    if(!data.streams[userId]){
+    if(!data){
         return(
             <div>
                 Loading...
@@ -29,10 +32,7 @@ const StreamEdit = ()=>{
         <div>
             <StreamForm 
                 onSubmit={onSubmit}
-                initialValues = {{
-                    title:data.streams[userId].title,
-                    description:data.streams[userId].description
-                }}
+                initialValues = {_.pick(data,'title','description')}
             />
                         
         </div>

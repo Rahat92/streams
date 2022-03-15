@@ -5,19 +5,18 @@ import StreamEdit from "./streams/StreamEdit";
 import StreamList from "./streams/StreamList";
 import StreamShow from "./streams/StreamShow";
 import Header from "./Header";
-import {history} from "../history";
 
 const App = ()=>{
     return(
         <div className="ui container">
-            <BrowserRouter history = {history}>
+            <BrowserRouter>
                 <Header />
                 <Routes>
                     <Route path="/" element = {<StreamList/>}/>
                     <Route path="/streams/new" element = {<StreamCreate />}/>
                     <Route path="/streams/edit/:userId" element = {<StreamEdit />}/>
-                    <Route path="/streams/delete" element = {<StreamDelete />}/>
-                    <Route path="/streams/show" element = {<StreamShow />}/>
+                    <Route path="/streams/delete/:userId" element = {<StreamDelete />}/>
+                    <Route path="/streams/:userId" element = {<StreamShow />}/>
                 </Routes>
             </BrowserRouter>
         </div>
